@@ -12,18 +12,18 @@ on:
 jobs:
   analyse:
     runs-on: ubuntu-latest
-    env:
-      ARTIFACTS_DIR: ${{ runner.temp }}/artifacts
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
-      - run: mkdir -p "$ARTIFACTS_DIR"
+      - run: mkdir -p ${{ runner.temp }}/artifacts
       - name: "Download artifact"
         uses: actions/download-artifact@v4
         with:
           name: results
-          path: ${{ env.ARTIFACTS_DIR }}
+          path: ${{ runner.temp }}/artifacts
           github-token: ${{ secrets.GITHUB_TOKEN }}
           run-id: ${{ github.event.workflow_run.id }}
       - run: |
+          set -x
+          ARTIFACTS_DIR=${{ env.ARTIFACTS_DIR }}
           ls "$ARTIFACTS_DIR" -ltra
           cat "$ARTIFACTS_DIR/log.txt
