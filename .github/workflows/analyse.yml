@@ -24,6 +24,6 @@ jobs:
           run-id: ${{ github.event.workflow_run.id }}
       - run: |
           set -x
-          ARTIFACTS_DIR=${{ runner.temp }}/artifacts
+          ARTIFACTS_DIR="${{ runner.temp }}/artifacts"
           ls "$ARTIFACTS_DIR" -ltra
-          cat "$ARTIFACTS_DIR/log.txt
+          cat "$ARTIFACTS_DIR/log.txt"
