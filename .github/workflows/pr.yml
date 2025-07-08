@@ -1,0 +1,17 @@
+name: Test PR
+permissions:
+  contents: read
+
+on:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo test > log.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: results
+          path: log.txt
