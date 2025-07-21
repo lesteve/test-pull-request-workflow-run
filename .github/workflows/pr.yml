@@ -9,9 +9,21 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - run: |
+      - env:
+          PR_NUMBER: ${{ github.event.number }}
+          BRANCH_SHA: ${{ github.event.pull_request.head.sha }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          set -x
           echo test > log.txt
+          echo $PR_NUMBER > pr.txt
+          echo $BRANCH_SHA > branch-sha.txt
+          echo $RUN_ID > run-id.txt
       - uses: actions/upload-artifact@v4
         with:
           name: results
-          path: log.txt
+          path: |
+            log.txt
+            pr.txt
+            branch-sha.txt
+            run-id.txt

@@ -13,6 +13,9 @@ jobs:
   analyse:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    env:
+      BRANCH_SHA: ${{ github.event.workflow_run.head_sha }}
+      RUN_ID: ${{ github.event.workflow_run.id }}
     steps:
       - run: mkdir -p ${{ runner.temp }}/artifacts
       - name: "Download artifact"
@@ -27,3 +30,8 @@ jobs:
           ARTIFACTS_DIR="${{ runner.temp }}/artifacts"
           ls "$ARTIFACTS_DIR" -ltra
           cat "$ARTIFACTS_DIR/log.txt"
+          cat "$ARTIFACTS_DIR/pr.txt"
+          echo $BRANCH_SHA
+          cat "$ARTIFACTS_DIR/branch-sha.txt"
+          echo $RUN_ID
+          cat "$ARTIFACTS_DIR/run-id.txt"
